@@ -1,0 +1,42 @@
+### GET request to example server
+GET http://localhost:8080/persons
+    ?page=0&size=2&generated-in=IntelliJ IDEA
+
+###
+POST http://localhost:8080/persons/filter
+Content-Type: application/json
+
+{
+  "page": 0
+}
+###
+POST http://localhost:8080/persons/add
+Content-Type: application/json
+
+{
+  "firstName": "Denys",
+  "lastName": "Babich",
+  "birthDate": "1987-05-22",
+  "gender": "MALE"
+}
+
+###
+POST http://localhost:8080/persons/delete
+Content-Type: application/json
+
+28fb3d262be69c465fc48e9b4096cda5
+
+
+###
+GET http://localhost:8080/profile/persons
+
+###
+GET http://localhost:8080/persons/search/findByLastName?lastName=Müller
+
+
+###
+GET http://localhost:8080/persons/1
+
+
+###
+GET http://localhost:8080/persons/1/personNames

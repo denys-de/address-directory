@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="202409151126-001" author="Denys Babich">
+        <createTable tableName="PERSON">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GENDER" type="VARCHAR(100)"/>
+            <column name="BIRTH_DATE" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DELETED" type="VARCHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="202409151126-002" author="Denys Babich">
+        <addUniqueConstraint constraintName="UK_PERSON_1" tableName="PERSON" columnNames="CODE"/>
+    </changeSet>
+    <changeSet id="202409151126-003" author="Denys Babich">
+        <createTable tableName="PERSON_NAME">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="PERSON_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EFFECTIVE_DATE" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1725966684669-004" author="Denys Babich">
+        <addForeignKeyConstraint baseTableName="PERSON_NAME" baseColumnNames="PERSON_ID" constraintName="FK_PERSON__PERSON_NAME"
+                                 referencedTableName="PERSON"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1725966684669-005" author="Denys Babich">
+        <addUniqueConstraint tableName="PERSON_NAME" columnNames="PERSON_ID,FIRST_NAME,LAST_NAME"/>
+    </changeSet>
+    <changeSet id="1725966684669-006" author="Denys Babich">
+        <insert tableName="PERSON">
+            <column name="GENDER" value="MALE"/>
+            <column name="BIRTH_DATE" value="1987-06-13"/>
+            <column name="DELETED" value="N"/>
+            <column name="CODE" value="code1"/>
+        </insert>
+        <insert tableName="PERSON_NAME">
+            <column name="FIRST_NAME" value="Haarald"/>
+            <column name="LAST_NAME" value="Looser"/>
+            <column name="EFFECTIVE_DATE" valueDate="1987-06-13"/>
+            <column name="PERSON_ID" valueComputed="SELECT ID FROM PERSON WHERE CODE='code1'"/>
+        </insert>
+        <insert tableName="PERSON">
+            <column name="GENDER" value="FEMALE"/>
+            <column name="BIRTH_DATE" value="1977-03-13"/>
+            <column name="DELETED" value="N"/>
+            <column name="CODE" value="code2"/>
+        </insert>
+        <insert tableName="PERSON_NAME">
+            <column name="FIRST_NAME" value="Monika"/>
+            <column name="LAST_NAME" value="Pirklbauer"/>
+            <column name="EFFECTIVE_DATE" valueDate="1977-04-05"/>
+            <column name="PERSON_ID" valueComputed="SELECT ID FROM PERSON WHERE CODE='code2'"/>
+        </insert>
+        <insert tableName="PERSON">
+            <column name="GENDER" value="MALE"/>
+            <column name="BIRTH_DATE" value="2005-07-22"/>
+            <column name="DELETED" value="N"/>
+            <column name="CODE" value="code3"/>
+        </insert>
+        <insert tableName="PERSON_NAME">
+            <column name="FIRST_NAME" value="Hendrik"/>
+            <column name="LAST_NAME" value="Müller"/>
+            <column name="EFFECTIVE_DATE" valueDate="2005-09-22"/>
+            <column name="PERSON_ID" valueComputed="SELECT ID FROM PERSON WHERE CODE='code3'"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
